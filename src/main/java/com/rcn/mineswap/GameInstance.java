@@ -14,7 +14,7 @@ public final class GameInstance {
     private enum Items {
         EMPTY, COIL, WARN, DYNAMITE, CHEST
     }
-    private final Items[][] GameField = new Items[5][5];
+    private Items[][] GameField = new Items[5][5];
 
     private void BuildGameFiled() {
         //Mark all fields as empty by default
@@ -52,6 +52,7 @@ public final class GameInstance {
                 if(count > 0) {
                     GameField[x][y] = count == 1 ? Items.COIL : Items.WARN;
                 }
+                //TODO: else GameField[x][y] = EMPTY ?
             }
         }
 
@@ -95,6 +96,12 @@ public final class GameInstance {
 
     public Items GetCellContent(int x, int y) {
         return GameField[x][y];
+    }
+
+    // Refresh current state
+    public void Restart() {
+        this.GameField = new Items[5][5];
+        BuildGameFiled();
     }
 
 
