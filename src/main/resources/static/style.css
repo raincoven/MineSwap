@@ -15,17 +15,67 @@
     padding-top:100%;
 }
 
-.cell:hover {
+.cell.active {
+    border: 1px solid tomato;
+}
+
+.cell {
+    border: 1px solid black;
+}
+
+.cell.active:hover {
     padding: 0px;
     border: 5px solid #ffffff;
     transition: all 0.1s ease-in;
     cursor: pointer;
 }
 
-.cell:active {
+.cell.active:active {
     transform: rotate(360deg);
     background-color: white;
     border: 5px solid tomato;
     padding: 0;
     transition: all 0.5s ease-in;
+}
+
+.cell::after  {
+    padding: 0;
+    vertical-align: middle;
+    display: contents;
+    line-height: 100%;
+}
+
+.cell.EMPTY {
+    background-color: green;
+}
+
+.cell.COIL {
+    background-color: yellow;
+}
+
+.cell.COIL::after {
+    content: "👁";
+}
+
+.cell.WARN {
+    background-color: orange;
+}
+
+.cell.WARN::after {
+    content: "👀";
+}
+
+.cell.DYNAMITE {
+    background-color: red;
+}
+
+.cell.DYNAMITE::after {
+    content: "🧨";
+}
+
+.cell.CHEST {
+    background-color: gold;
+}
+.cell.CHEST::after {
+    content: "👛";
 }
