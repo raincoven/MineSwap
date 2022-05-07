@@ -17,4 +17,17 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#newGame').click(function() {
+        $.ajax({
+            url: "/restart",
+            type: 'POST',
+            error: function() {
+                alert("Something went wrong!");
+            },
+            success: function(resp) {
+                location.reload();
+            }
+        });
+    });
 });
