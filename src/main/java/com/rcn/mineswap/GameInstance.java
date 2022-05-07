@@ -1,30 +1,27 @@
 package com.rcn.mineswap;
-
-
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.IntStream;
 
-@Service
-@Scope("singleton")
 public final class GameInstance {
+    private static GameInstance INSTANCE;
     private enum Items {
         EMPTY, COIL, WARN, DYNAMITE, CHEST
     }
     private Items[][] GameField = new Items[5][5];
 
-    private void BuildGameFiled() {
-        //Mark all fields as empty by default
-        //TODO: find an different way to set default value for the array
-        for(int x = 0; x < 5; x++) {
-            for(int y=0; y < 5; y++) {
-                GameField[x][y] = Items.EMPTY;
-            }
-        }
+    public GameInstance() {
+        BuildGameFiled();
+    }
 
+    public static GameInstance getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new GameInstance();
+        }
+        return INSTANCE;
+    }
+
+    private void BuildGameFiled() {
         // Plant the prize
         int chestXCord = getRandomCord(0, 4);
         int chestYCord = getRandomCord(0, 4);
@@ -42,7 +39,7 @@ public final class GameInstance {
             }
         }
 
-        //Plant COIL and WARN
+        //Plant EMPTY, COIL and WARN
         for(int x = 0; x < 5; x++) {
             for(int y=0; y < 5; y++) {
                 if (GameField[x][y] == Items.CHEST || GameField[x][y] == Items.DYNAMITE) {
@@ -51,8 +48,10 @@ public final class GameInstance {
                 int count = CountDynamiteInNeighborCells(x,y);
                 if(count > 0) {
                     GameField[x][y] = count == 1 ? Items.COIL : Items.WARN;
+                } else {
+                    GameField[x][y] = Items.EMPTY;
                 }
-                //TODO: else GameField[x][y] = EMPTY ?
+
             }
         }
 
