@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,40 +13,8 @@
 <div class="container-xxl my-md-4">
     <div class="row">
         <div class="col">
-            <div class="row">
-                <div class="col cell"><p style="line-height: 100%;">O</p></div>
-                <div class="col cell">X</div>
-                <div class="col cell">1</div>
-                <div class="col cell">2</div>
-                <div class="col cell">1</div>
-            </div>
-            <div class="row">
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-            </div>
-            <div class="row">
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-            </div>
-            <div class="row">
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-            </div>
-            <div class="row">
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
-                <div class="col cell">?</div>
+            <div th:each="y: ${#numbers.sequence(0, 4)}" class="row">
+                <div th:each="x: ${#numbers.sequence(0, 4)}" th:data-x="${x}" th:data-y="${y}" class="col cell"></div>
             </div>
         </div>
 
