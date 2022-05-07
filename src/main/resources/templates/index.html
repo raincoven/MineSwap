@@ -20,8 +20,26 @@
         </div>
 
         <div class="col">
-            <h1>Mine Swap</h1>
-            <button type="submit" class="btn btn-primary">New Game</button>
+            <div class="col-md-12 col-md-12 mb-4">
+                <h1>Mine Swap</h1>
+                <button id="newGame" type="submit" class="btn btn-primary">New Game</button>
+            </div>
+            <div class="col-md-12 col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">How to play</h5>
+                        <b>Goal: to find a gold cell containing the prize</b>
+                        <p>Cell items type:</p>
+                        <ul class="card-text">
+                            <li>green cell - all 4 neighbor cells horizontally and vertically contains no bombms. Diagonals are unknown.</li>
+                            <li>👁 - one of 4 neighbor cells horizontally and vertically contains one bomb</li>
+                            <li>👀 - 4 neighbor cells horizontally and vertically contains at least two bombs or maybe even more</li>
+                            <li>🧨 - you found the bomb! GAME OVER!</li>
+                            <li>👛 - you found the prize! You win!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
