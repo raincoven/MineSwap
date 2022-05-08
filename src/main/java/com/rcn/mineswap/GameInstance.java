@@ -2,8 +2,7 @@ package com.rcn.mineswap;
 
 import java.util.Random;
 
-public final class GameInstance {
-    private static GameInstance INSTANCE;
+public class GameInstance {
     private enum Items {
         EMPTY, COIL, WARN, DYNAMITE, CHEST
     }
@@ -11,13 +10,6 @@ public final class GameInstance {
 
     public GameInstance() {
         BuildGameFiled();
-    }
-
-    public static GameInstance getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new GameInstance();
-        }
-        return INSTANCE;
     }
 
     private void BuildGameFiled() {
@@ -53,8 +45,6 @@ public final class GameInstance {
 
             }
         }
-
-
     }
 
     private int getRandomCord(int x, int y) {
@@ -95,12 +85,4 @@ public final class GameInstance {
     public Items GetCellContent(int x, int y) {
         return GameField[x][y];
     }
-
-    // Refresh current state
-    public void Restart() {
-        this.GameField = new Items[5][5];
-        BuildGameFiled();
-    }
-
-
 }

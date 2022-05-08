@@ -6,8 +6,9 @@ $(document).ready(function() {
 
         $.ajax({
             url: "/cellValue/" + x + "/" + y,
-            error: function() {
+            error: function(e) {
                 alert("Something went wrong! Reload the page and start an new game.");
+                console.log(e)
             },
             success: function(resp) {
                 cell.addClass(resp);
