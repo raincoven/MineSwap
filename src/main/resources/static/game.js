@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('div.cell.active').click(function() {
+    $(document).on('click', 'div.cell.active', function() {
         var cell = $(this);
         var x = cell.data("x");
         var y = cell.data("y");
