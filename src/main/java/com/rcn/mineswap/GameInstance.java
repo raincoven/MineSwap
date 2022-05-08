@@ -6,27 +6,28 @@ public class GameInstance {
     private enum Items {
         EMPTY, COIL, WARN, DYNAMITE, CHEST
     }
-    private Items[][] GameField = new Items[5][5];
+    private final Items[][] GameField = new Items[5][5];
 
     public GameInstance() {
-        BuildGameFiled();
-    }
-
-    private void BuildGameFiled() {
         // Plant the prize
         int chestXCord = getRandomCord(0, 4);
         int chestYCord = getRandomCord(0, 4);
         GameField[chestXCord][chestYCord] = Items.CHEST;
 
         //Plant the dynamite
-        // @TODO: improve logic to place dynamite near the chest
         int countDynamite = 0;
         while (countDynamite != 4) {
-            int x = getRandomCord(0, 4);
-            int y = getRandomCord(0, 4);
-            if (GameField[x][y] != Items.CHEST) {
-                GameField[x][y] = Items.DYNAMITE;
-                countDynamite++;
+            int x = getRandomCord(chestXCord-3, chestXCord+3);
+            int y = getRandomCord(chestYCord-3, chestYCord+3);
+            try {
+                if (GameField[x][y] != Items.CHEST && GameField[x][y] != Items.DYNAMITE) {
+                    GameField[x][y] = Items.DYNAMITE;
+                    countDynamite++;
+                }
+            }
+            // Went out of game field boundaries. Just need to get another set of coordinates.
+            catch (Exception e) {
+                continue;
             }
         }
 
