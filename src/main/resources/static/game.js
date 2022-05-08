@@ -15,9 +15,11 @@ $(document).ready(function() {
                 cell.removeClass("active");
                 if (resp == 'DYNAMITE') {
                     alert("Game over! Start an new game");
+                    $(".active").removeClass("active");
                 }
                 if (resp == 'CHEST') {
                     alert('You won!')
+                    $(".active").removeClass("active");
                 }
             }
         });

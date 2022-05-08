@@ -24,7 +24,7 @@ public class GameInstance {
         while (countDynamite != 4) {
             int x = getRandomCord(0, 4);
             int y = getRandomCord(0, 4);
-            if (GameField[x][y] != Items.CHEST || GameField[x][y] != Items.EMPTY) {
+            if (GameField[x][y] != Items.CHEST) {
                 GameField[x][y] = Items.DYNAMITE;
                 countDynamite++;
             }
