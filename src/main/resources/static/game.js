@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('div.cell').click(function() {
+    $('div.cell.active').click(function() {
         var cell = $(this);
         var x = cell.data("x");
         var y = cell.data("y");
@@ -12,8 +12,12 @@ $(document).ready(function() {
             success: function(resp) {
                 cell.addClass(resp);
                 cell.removeClass("active");
-                console.log($(this));
-                console.log(resp);
+                if (resp == 'DYNAMITE') {
+                    alert("Game over! Start an new game");
+                }
+                if (resp == 'CHEST') {
+                    alert('You won!')
+                }
             }
         });
     });
