@@ -21,7 +21,7 @@ public class GameInstance {
         //Plant the dynamite
         // @TODO: improve logic to place dynamite near the chest
         int countDynamite = 0;
-        while (countDynamite != 3) {
+        while (countDynamite != 4) {
             int x = getRandomCord(0, 4);
             int y = getRandomCord(0, 4);
             if (GameField[x][y] != Items.CHEST || GameField[x][y] != Items.EMPTY) {
@@ -58,17 +58,21 @@ public class GameInstance {
     private int CountDynamiteInNeighborCells(int x, int y) {
         int countDynamite = 0;
 
+        // Left cell
         int neighborX = x - 1;
         int neighborY = y;
         countDynamite += CheckCellForTheDynamite(neighborX, neighborY) ? 1 : 0;
 
+        // Right cell
         neighborX = x + 1;
         countDynamite += CheckCellForTheDynamite(neighborX, neighborY) ? 1 : 0;
 
+        // Bottom cell
         neighborX = x;
         neighborY = y - 1;
         countDynamite += CheckCellForTheDynamite(neighborX, neighborY) ? 1 : 0;
 
+        // Top cell
         neighborY = y + 1;
         countDynamite += CheckCellForTheDynamite(neighborX, neighborY) ? 1 : 0;
 
@@ -76,6 +80,8 @@ public class GameInstance {
     }
 
     private boolean CheckCellForTheDynamite(int x, int y) {
+        // Constraints for edge cells
+        // TODO: Make universal for any array size
         if(x < 0 || x > 4 || y < 0 || y > 4) {
             return false;
         }
