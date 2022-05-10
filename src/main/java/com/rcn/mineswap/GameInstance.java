@@ -1,5 +1,8 @@
 package com.rcn.mineswap;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 
 public class GameInstance {
@@ -15,7 +18,8 @@ public class GameInstance {
     }
 
     // Plant the prize
-    private int[] plantThePrize() {
+    @Contract(" -> new")
+    private int @NotNull [] plantThePrize() {
         int prizeXCoordinate = getRandomCoord(0, 4);
         int prizeYCoordinate = getRandomCoord(0, 4);
         GameField[prizeXCoordinate][prizeYCoordinate] = Items.CHEST;
@@ -40,11 +44,13 @@ public class GameInstance {
         }
     }
 
-    // Plant EMPTY, COIL and WARN to identify if cell is in dynamite boundaries
-    // We are checking only top, left, bottom and right cells
-    // EMPTY - no dynamite nearby
-    // COIL - 1 cell containing dynamite
-    // WARN - more than 1 cell nearby containing the dynamite
+    /**
+     * Plant EMPTY, COIL and WARN to identify if cell is in dynamite boundaries
+     * We are checking only top, left, bottom and right cells
+     * EMPTY - no dynamite nearby
+     * COIL - 1 cell containing dynamite
+     * WARN - more than 1 cell nearby containing the dynamite
+     */
     private void plantTheDynamiteMarkers() {
         for(int x = 0; x < 5; x++) {
             for(int y=0; y < 5; y++) {
@@ -63,7 +69,11 @@ public class GameInstance {
     }
 
 
+    /**
+     * Returns random number in boundary
+     */
     private int getRandomCoord(int x, int y) {
+
         Random random = new Random();
         return random.ints(x, y)
                 .findFirst()
