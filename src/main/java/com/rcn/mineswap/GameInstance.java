@@ -49,8 +49,7 @@ public class GameInstance {
     private void plantTheDynamiteMarkers() {
         for(int x = 0; x < 5; x++) {
             for(int y=0; y < 5; y++) {
-                if (GameField[x][y] != null && GameField[x][y].getValue() == GameObjects.CHEST
-                        || GameField[x][y] != null && GameField[x][y].getValue() == GameObjects.DYNAMITE) {
+                if (GameField[x][y] != null) {
                     continue;
                 }
                 int count = CountDynamiteInNeighborCells(x,y);
