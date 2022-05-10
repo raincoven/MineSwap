@@ -1,36 +1,35 @@
 package com.rcn.mineswap;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
 public class GameInstance {
-    private final GameObjects[][] GameField = new GameObjects[5][5];
+    private final Cell[][] GameField = new Cell[5][5];
 
     public GameInstance() {
-        Cell prizeCoordinates = plantThePrize();
-        plantTheDynamites(prizeCoordinates);
+        Cell prize = plantThePrize();
+        plantTheDynamites(prize);
         plantTheDynamiteMarkers();
     }
 
     // Plant the prize
     private Cell plantThePrize() {
-        int prizeXCoordinate = getRandomCoord(0, 4);
-        int prizeYCoordinate = getRandomCoord(0, 4);
-        GameField[prizeXCoordinate][prizeYCoordinate] = GameObjects.CHEST;
-        return new Cell(prizeXCoordinate, prizeYCoordinate, GameObjects.CHEST);
+        int x = getRandomCoord(0, 4);
+        int y = getRandomCoord(0, 4);
+        GameField[x][y] = new Cell(x, y, GameObjects.CHEST);
+        return GameField[x][y];
     }
 
     //Plant the dynamite for cells in range 3 from the point
-    private void plantTheDynamites(Cell cell) {
+    private void plantTheDynamites(@NotNull Cell cell) {
         int countDynamite = 0;
         while (countDynamite != 4) {
             int x = getRandomCoord(cell.getX()-3, cell.getX()+3);
             int y = getRandomCoord(cell.getY()-3, cell.getY()+3);
             try {
-                if (GameField[x][y] != GameObjects.CHEST && GameField[x][y] != GameObjects.DYNAMITE) {
-                    GameField[x][y] = GameObjects.DYNAMITE;
+                if(GameField[x][y] == null) {
+                    GameField[x][y] = new Cell(x, y, GameObjects.DYNAMITE);
                     countDynamite++;
                 }
             }
@@ -50,20 +49,19 @@ public class GameInstance {
     private void plantTheDynamiteMarkers() {
         for(int x = 0; x < 5; x++) {
             for(int y=0; y < 5; y++) {
-                if (GameField[x][y] == GameObjects.CHEST || GameField[x][y] == GameObjects.DYNAMITE) {
+                if (GameField[x][y] != null && GameField[x][y].getValue() == GameObjects.CHEST
+                        || GameField[x][y] != null && GameField[x][y].getValue() == GameObjects.DYNAMITE) {
                     continue;
                 }
                 int count = CountDynamiteInNeighborCells(x,y);
                 if(count > 0) {
-                    GameField[x][y] = count == 1 ? GameObjects.COIL : GameObjects.WARN;
+                    GameField[x][y] = count == 1 ? new Cell(x, y, GameObjects.COIL) : new Cell(x, y, GameObjects.WARN);
                 } else {
-                    GameField[x][y] = GameObjects.EMPTY;
+                    GameField[x][y] = new Cell(x, y, GameObjects.EMPTY);
                 }
-
             }
         }
     }
-
 
     /**
      * Returns random number in boundary
@@ -77,6 +75,7 @@ public class GameInstance {
     }
 
     // Checking how many top, bottom, left and right bordering cells contains dynamite
+    // TODO: Cell as input argument
     private int CountDynamiteInNeighborCells(int x, int y) {
         int countDynamite = 0;
         Cell[] Boundaries = new Cell[] {
@@ -87,7 +86,6 @@ public class GameInstance {
         };
 
         for (Cell cell : Boundaries) {
-            System.out.println(cell.getX());
             countDynamite += CheckCellForTheDynamite(cell) ? 1 : 0;
         }
 
@@ -102,10 +100,11 @@ public class GameInstance {
         if(x < 0 || x > 4 || y < 0 || y > 4) {
             return false;
         }
-        return GameField[x][y] == GameObjects.DYNAMITE;
+        return GameField[x][y] != null && GameField[x][y].getValue() == GameObjects.DYNAMITE;
     }
 
     public GameObjects GetCellContent(int x, int y) {
-        return GameField[x][y];
+        System.out.println("here");
+        return GameField[x][y].getValue();
     }
 }
