@@ -15,8 +15,8 @@ public class GameInstance {
 
     // Plant the prize
     private Cell plantThePrize() {
-        int x = getRandomCoord(0, 4);
-        int y = getRandomCoord(0, 4);
+        int x = getRandomNum(0, 4);
+        int y = getRandomNum(0, 4);
         GameField[x][y] = new Cell(x, y, GameObjects.CHEST);
         return GameField[x][y];
     }
@@ -25,8 +25,8 @@ public class GameInstance {
     private void plantTheDynamites(@NotNull Cell cell) {
         int countDynamite = 0;
         while (countDynamite != 4) {
-            int x = getRandomCoord(cell.getX()-3, cell.getX()+3);
-            int y = getRandomCoord(cell.getY()-3, cell.getY()+3);
+            int x = getRandomNum(cell.getX()-3, cell.getX()+3);
+            int y = getRandomNum(cell.getY()-3, cell.getY()+3);
             try {
                 if(GameField[x][y] == null) {
                     GameField[x][y] = new Cell(x, y, GameObjects.DYNAMITE);
@@ -52,12 +52,15 @@ public class GameInstance {
                 if (GameField[x][y] != null) {
                     continue;
                 }
-                int count = CountDynamiteInNeighborCells(x,y);
-                if(count > 0) {
-                    GameField[x][y] = count == 1 ? new Cell(x, y, GameObjects.COIL) : new Cell(x, y, GameObjects.WARN);
-                } else {
-                    GameField[x][y] = new Cell(x, y, GameObjects.EMPTY);
+                Cell markerCell = new Cell(x, y);
+                int count = CountDynamiteInNeighborCells(markerCell);
+                switch (count){
+                    case 0: markerCell.setValue(GameObjects.EMPTY);
+                    case 1 : markerCell.setValue(GameObjects.COIL);
+                    default: markerCell.setValue(GameObjects.WARN);
                 }
+
+                GameField[x][y] = markerCell;
             }
         }
     }
@@ -65,18 +68,20 @@ public class GameInstance {
     /**
      * Returns random number in boundary
      */
-    private int getRandomCoord(int x, int y) {
+    private int getRandomNum(int a, int b) {
 
         Random random = new Random();
-        return random.ints(x, y)
+        return random.ints(a, b)
                 .findFirst()
                 .getAsInt();
     }
 
     // Checking how many top, bottom, left and right bordering cells contains dynamite
     // TODO: Cell as input argument
-    private int CountDynamiteInNeighborCells(int x, int y) {
+    private int CountDynamiteInNeighborCells(@NotNull Cell cell) {
         int countDynamite = 0;
+        int x = cell.getX();
+        int y = cell.getY();
         Cell[] Boundaries = new Cell[] {
             new Cell(x-1, y),
             new Cell(x+1, y),
@@ -84,14 +89,14 @@ public class GameInstance {
             new Cell(x, y+1),
         };
 
-        for (Cell cell : Boundaries) {
-            countDynamite += CheckCellForTheDynamite(cell) ? 1 : 0;
+        for (Cell boundaryCell : Boundaries) {
+            countDynamite += CheckCellForTheDynamite(boundaryCell) ? 1 : 0;
         }
 
         return countDynamite;
     }
 
-    private boolean CheckCellForTheDynamite(Cell cell) {
+    private boolean CheckCellForTheDynamite(@NotNull Cell cell) {
         int x = cell.getX();
         int y = cell.getY();
         // Constraints for edge cells
@@ -103,7 +108,6 @@ public class GameInstance {
     }
 
     public GameObjects GetCellContent(int x, int y) {
-        System.out.println("here");
         return GameField[x][y].getValue();
     }
 }
