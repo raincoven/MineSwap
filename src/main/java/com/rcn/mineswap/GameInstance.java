@@ -81,9 +81,9 @@ public class GameInstance {
         int countDynamite = 0;
         Cell[] Boundaries = new Cell[] {
             new Cell(x-1, y),
-            new Cell(x+1, y, GameObjects.DYNAMITE),
-            new Cell(x, y-1, GameObjects.DYNAMITE),
-            new Cell(x, y+1, GameObjects.DYNAMITE),
+            new Cell(x+1, y),
+            new Cell(x, y-1),
+            new Cell(x, y+1),
         };
 
         for (Cell cell : Boundaries) {
