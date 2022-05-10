@@ -1,8 +1,10 @@
 package com.rcn.mineswap;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Cell {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private GameObjects value;
 
     public Cell(int x, int y, GameObjects value) {
@@ -24,5 +26,14 @@ public class Cell {
 
     public GameObjects getValue() {
         return value;
+    }
+
+    public boolean setValue(@NotNull GameObjects value) {
+        if (this.value == null) {
+            this.value = value;
+            return true;
+        } else {
+            return false;
+        }
     }
 }
